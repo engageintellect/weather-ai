@@ -4,6 +4,8 @@ import StatCard from "@/components/StatCard";
 import InformationPanel from "@/components/InformationPanel";
 import fetchWeatherQuery from "@/graphql/queries/fetchWeatherQueries";
 import TempChart from "@/components/TempChart";
+import RainChart from "@/components/RainChart";
+import HumidityChart from "@/components/HumidityChart";
 
 type Props = {
   params: {
@@ -90,9 +92,8 @@ async function WeatherPage({ params: { city, lat, long } }: Props) {
 
         <div className="space-y-3">
           <TempChart results={results} />
-          {/* Temp Chart */}
-          {/* Rain Chart */}
-          {/* Humidity Chart */}
+          <RainChart results={results} />
+          <HumidityChart results={results} />
         </div>
       </div>
     </div>
