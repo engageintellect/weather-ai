@@ -3,6 +3,7 @@ import CalloutCard from "@/components/CalloutCard";
 import StatCard from "@/components/StatCard";
 import InformationPanel from "@/components/InformationPanel";
 import fetchWeatherQuery from "@/graphql/queries/fetchWeatherQueries";
+import TempChart from "@/components/TempChart";
 
 type Props = {
   params: {
@@ -30,15 +31,10 @@ async function WeatherPage({ params: { city, lat, long } }: Props) {
   console.log(results);
 
   return (
-    <div>
-      <InformationPanel
-      city={city}
-      result={results}
-      lat={lat}
-      long={long}
-      />
+    <div className="flex flex-col min-h-screen md:flex-row">
+      <InformationPanel city={city} results={results} lat={lat} long={long} />
 
-      <div>
+      <div className="flex-1 p-5 lg:p-10">
         <div className="p-5">
           <div className="pb-5">
             <h2 className="text-xl font-bold">Todays Overview</h2>
@@ -72,36 +68,32 @@ async function WeatherPage({ params: { city, lat, long } }: Props) {
                 color="rose"
               />
               {Number(results.daily.uv_index_max[0].toFixed(1)) > 5 && (
-                <CalloutCard 
-                message={"UV Index is high today"} 
-                warning />
+                <CalloutCard message={"UV Index is high today"} warning />
               )}
             </div>
 
             <div className="flex space-x-3">
               <StatCard
-              title="Wind Speed"
-              metric={`${results.current_weather.windspeed.toFixed(1)}m/s`}
-              color="cyan"
+                title="Wind Speed"
+                metric={`${results.current_weather.windspeed.toFixed(1)}m/s`}
+                color="cyan"
               />
               <StatCard
-              title="Wind Direction"
-              metric={`${results.current_weather.winddirection.toFixed(1)}°`}
-              color="violet"
+                title="Wind Direction"
+                metric={`${results.current_weather.winddirection.toFixed(1)}°`}
+                color="violet"
               />
             </div>
-
-
           </div>
         </div>
         <hr className="mb-5" />
 
         <div className="space-y-3">
+          <TempChart results={results} />
           {/* Temp Chart */}
           {/* Rain Chart */}
           {/* Humidity Chart */}
         </div>
-
       </div>
     </div>
   );
