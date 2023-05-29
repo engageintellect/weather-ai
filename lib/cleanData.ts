@@ -28,7 +28,7 @@ const cleanData = (data: Root, city: string) => {
       weathercode,
     },
     hourly: {
-      temperature_2m: temperature_2m.lastIndexOf(0, 24),
+      temperature_2m: temperature_2m.slice(0, 24),
       snowfall: snowfall.slice(0, 24),
       rain: rain.slice(0, 24),
       relativehumidity_2m: relativehumidity_2m.slice(0, 24),
@@ -41,6 +41,5 @@ const cleanData = (data: Root, city: string) => {
     city,
   };
 };
-
 
 export default cleanData;
