@@ -9,6 +9,8 @@ import HumidityChart from "@/components/HumidityChart";
 import getBasePath from "@/lib/getBasePath";
 import cleanData from "@/lib/cleanData";
 
+export const revalidate = 1440;
+
 type Props = {
   params: {
     city: string;
