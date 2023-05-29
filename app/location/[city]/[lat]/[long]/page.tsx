@@ -3,6 +3,11 @@ import CalloutCard from "@/components/CalloutCard";
 import StatCard from "@/components/StatCard";
 import InformationPanel from "@/components/InformationPanel";
 import fetchWeatherQuery from "@/graphql/queries/fetchWeatherQueries";
+import TempChart from "@/components/TempChart";
+import RainChart from "@/components/RainChart";
+import HumidityChart from "@/components/HumidityChart";
+import getBasePath from "@/lib/getBasePath";
+import cleanData from "@/lib/cleanData";
 
 type Props = {
   params: {
@@ -27,18 +32,26 @@ async function WeatherPage({ params: { city, lat, long } }: Props) {
 
   const results: Root = data.myQuery;
 
-  console.log(results);
+  const dataToSend = cleanData(results, city);
+
+  const res = await fetch(`${getBasePath()}/api/getWeatherSummary`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      weatherData: dataToSend,
+    }),
+  });
+
+  const GPTdata = await res.json();
+  const { content } = GPTdata;
 
   return (
-    <div>
-      <InformationPanel
-      city={city}
-      result={results}
-      lat={lat}
-      long={long}
-      />
+    <div className="flex flex-col min-h-screen md:flex-row">
+      <InformationPanel city={city} results={results} lat={lat} long={long} />
 
-      <div>
+      <div className="flex-1 p-5 lg:p-10">
         <div className="p-5">
           <div className="pb-5">
             <h2 className="text-xl font-bold">Todays Overview</h2>
@@ -49,7 +62,7 @@ async function WeatherPage({ params: { city, lat, long } }: Props) {
             </p>
           </div>
           <div className="m-2 mb-10">
-            <CalloutCard message="this is where gpt summary will go" />
+            <CalloutCard message={content} />
           </div>
 
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-5 m-2">
@@ -72,36 +85,31 @@ async function WeatherPage({ params: { city, lat, long } }: Props) {
                 color="rose"
               />
               {Number(results.daily.uv_index_max[0].toFixed(1)) > 5 && (
-                <CalloutCard 
-                message={"UV Index is high today"} 
-                warning />
+                <CalloutCard message={"UV Index is high today"} warning />
               )}
             </div>
 
             <div className="flex space-x-3">
               <StatCard
-              title="Wind Speed"
-              metric={`${results.current_weather.windspeed.toFixed(1)}m/s`}
-              color="cyan"
+                title="Wind Speed"
+                metric={`${results.current_weather.windspeed.toFixed(1)}m/s`}
+                color="cyan"
               />
               <StatCard
-              title="Wind Direction"
-              metric={`${results.current_weather.winddirection.toFixed(1)}°`}
-              color="violet"
+                title="Wind Direction"
+                metric={`${results.current_weather.winddirection.toFixed(1)}°`}
+                color="violet"
               />
             </div>
-
-
           </div>
         </div>
         <hr className="mb-5" />
 
         <div className="space-y-3">
-          {/* Temp Chart */}
-          {/* Rain Chart */}
-          {/* Humidity Chart */}
+          <TempChart results={results} />
+          <RainChart results={results} />
+          <HumidityChart results={results} />
         </div>
-
       </div>
     </div>
   );

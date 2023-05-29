@@ -61,7 +61,7 @@ function CityPicker() {
           <label htmlFor="country">Country</label>
         </div>
         <Select
-          className="text-black"
+          className="text-black bg-red-500"
           value={selectedCountry}
           onChange={handleSelectedCountry}
           options={options}
