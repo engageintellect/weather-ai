@@ -19,20 +19,20 @@ function TempChart({ results }: Props) {
   const data = hourly.map((hour, i) => ({
     time: Number(hour),
     "UV Index": results.hourly.uv_index[i],
-    "Temperature (C)": results.hourly.temperature_2m[i],
+    "Temperature (F)": (results.hourly.temperature_2m[i] * 9) / 5 + 32,
   }));
 
-  const dataFormatter = (number: number) => `${number} °C`;
+  const dataFormatter = (number: number) => `${number} °F`;
 
   return (
-    <Card>
-      <Title>Temperature & UV Index</Title>
+    <Card className="bg-gradient-to-br from-zinc-900 to-zinc-800 ring-0">
+      <Title className="text-white">Temperature & UV Index</Title>
       <AreaChart
         className="mt-6"
         data={data}
         showLegend
         index="time"
-        categories={["Temperature (C)", "UV Index"]}
+        categories={["Temperature (F)", "UV Index"]}
         colors={["yellow", "rose"]}
         minValue={0}
         valueFormatter={dataFormatter}

@@ -70,13 +70,19 @@ async function WeatherPage({ params: { city, lat, long } }: Props) {
           <div className="grid grid-cols-1 xl:grid-cols-2 gap-5 m-2">
             <StatCard
               title="Max Temp"
-              metric={`${results.daily.temperature_2m_max[0].toFixed(1)}°C`}
+              metric={`${(
+                (results.daily.temperature_2m_max[0] * 9) / 5 +
+                32
+              ).toFixed(1)}°`}
               color="yellow"
             />
 
             <StatCard
               title="Min Temp"
-              metric={`${results.daily.temperature_2m_min[0].toFixed(1)}°C`}
+              metric={`${(
+                (results.daily.temperature_2m_min[0] * 9) / 5 +
+                32
+              ).toFixed(1)}°`}
               color="green"
             />
 
@@ -94,7 +100,8 @@ async function WeatherPage({ params: { city, lat, long } }: Props) {
             <div className="flex space-x-3">
               <StatCard
                 title="Wind Speed"
-                metric={`${results.current_weather.windspeed.toFixed(1)}m/s`}
+                metric={`${
+                  parseFloat(results.current_weather.windspeed *2.23694).toFixed(2)}mph`}
                 color="cyan"
               />
               <StatCard

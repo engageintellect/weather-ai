@@ -62,7 +62,7 @@ function InformationPanel({ city, lat, long, results }: Props) {
 
           <div className="flex items-center justify-between space-x-10">
             <p className="text-6xl font-semibold">
-              {results.current_weather.temperature.toFixed(1)}°C
+              {((results.current_weather.temperature * 9) / 5 + 32).toFixed(1)}°
             </p>
             <p className="text-right font-extralight text-lg">
               {weatherCodeToString[results.current_weather.weathercode].label}

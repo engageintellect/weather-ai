@@ -24,8 +24,8 @@ function RainChart({ results }: Props) {
   const dataFormatter = (number: number) => `${number} %`;
 
   return (
-    <Card>
-      <Title>Chances of Rain</Title>
+    <Card className="bg-gradient-to-br from-zinc-900 to-zinc-800 ring-0">
+      <Title className="text-white">Chances of Rain</Title>
       <AreaChart
         className="mt-6"
         data={data}
