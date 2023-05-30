@@ -11,8 +11,6 @@ type Props = {
 };
 
 function InformationPanel({ city, lat, long, results }: Props) {
-  const sunrise = `${results.daily.sunrise[0]}:00Z`; // Append seconds and timezone offset
-  const sunset = `${results.daily.sunset[0]}:00Z`; // Append seconds and timezone offset
   return (
     <div className="bg-gradient-to-br from-zinc-900 to-zinc-800 text-white p-10">
       <div className="pb-5">
@@ -79,7 +77,7 @@ function InformationPanel({ city, lat, long, results }: Props) {
           <div className="flex-1 flex justify-between items-center">
             <p className="font-extralight">Sunrise</p>
             <p className="font-extralight">
-              {new Date(sunrise).toLocaleTimeString("en-US", {
+              {new Date(results.daily.sunrise[0]).toLocaleTimeString("en-US", {
                 hour: "numeric",
                 minute: "numeric",
                 hour12: true,
@@ -94,7 +92,7 @@ function InformationPanel({ city, lat, long, results }: Props) {
           <div className="flex-1 flex justify-between items-center">
             <p className="font-extralight">Sunset</p>
             <p className="font-extralight">
-              {new Date(sunset).toLocaleTimeString("en-US", {
+              {new Date(results.daily.sunset[0]).toLocaleTimeString("en-US", {
                 hour: "numeric",
                 minute: "numeric",
                 hour12: true,
